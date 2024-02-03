@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @param mixed $name
- * @return caracteres
- * 
- */
-
 // definimos variables con los datos de phpmyadmin
 $user = "root";
 $pass = "";
@@ -67,4 +61,3 @@ echo "<br>Número de ciudades en la zona 1: " . $numeroCiudades['numero_ciudades
 
 // cerraremos la conexión
 mysqli_close($conexion);
-?>

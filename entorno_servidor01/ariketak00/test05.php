@@ -33,7 +33,7 @@ echo $c23;
 			$concatenar = '';
 			foreach ($datos as $calculo) {
 			    $concatenar .= '<tr>';
-			    $concatenar .= '<td>' . $calculo
+			    $concatenar .= '<td>' . $calculo .'</td>';
 			}
 			
 			?>
