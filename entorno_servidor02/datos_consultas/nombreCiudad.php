@@ -8,7 +8,7 @@ $host = "localhost";
 // conexión a mysql
 $conectar = mysqli_connect($host, $user, $pass);
 if (!$conectar) {
-    die ("no se ha conectado con la base de datos" . mysqli_error($conectar));
+    die ("no se ha conectado con la base de datos: " . mysqli_error($conectar()));
 } else {
     echo "se ha conectado correctamente con la base de datos <br>";
 }

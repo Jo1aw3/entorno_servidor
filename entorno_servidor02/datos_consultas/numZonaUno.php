@@ -8,7 +8,7 @@ $host = "localhost";
 // hacemos conexión con sql
 $conexion = mysqli_connect($host, $user, $pass);
 if (!$conexion) {
-    die ("no se ha conectado correctamente con la base de datos: " . mysqli_error());
+    die ("no se ha conectado correctamente con la base de datos: " . mysqli_error($conexion()));
 } else {
     echo "se ha conectado correctamente con la base de datos <br>";
 }
@@ -21,7 +21,7 @@ la conexion y el nombre de la base de datos para saber si
 se selecciono correctamente la base de datos con la cual queremos trabajar */
 $selBaseDatos = mysqli_select_db($conexion, $baseDatos);
 if (!$selBaseDatos) {
-    die("no se ha podido seleccionar la base de datos: " . mysqli_error(conexion));
+    die("no se ha podido seleccionar la base de datos: " . mysqli_error($conexion));
 } else {
     echo "la base de datos se selecciono correctamente <br> <hr>";
 }
