@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @param mixed $name
- * @return caracteres
- * 
- */
-
 // definimos variables con los datos de phpmyadmin
 $user = "root";
 $pass = "";
