@@ -17,5 +17,29 @@ $respuesta=["elemento quimico del oro?" => "Au",
     "azul +  rojo = ?" => "Morado",
     "cuanto da 4x4?" => "16"];
 
-if (isset($_POST['boton']) && !$_SESSION[])
+if (isset($_POST['boton']) && !$_SESSION["validar_usuario"]) {
+    if($model->validar_usuario($_POST['userName'], $_POST['userPass'])) {
+        $_SESSION["validar_usuario"] = TRUE;
+        $_SESSION["Usuario"] = $_POST['userName'];
+    } else {
+        ?>
+        <h3 style="color:red;">Intentalo de nuevo, datos de usuario incorrectos.</h3>
+        <?php
+        $pagina->formulario_completo();
+    }
+}
 
+if ($_SESSION["validar_usuario"] && isset($_POST['boton'])) {
+    if(isset($_POST['opcion'])) {
+        switch ($_POST['opcion']) {
+            case 'puntuacion':
+                $pagina->formulario_opciones();
+                $pagina->mostrar_puntuaciones($model->ordenar_puntuaciones());
+                break;
+            case 'jugar':
+                
+                break;
+        }
+    }
+        
+}

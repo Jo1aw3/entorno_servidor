@@ -16,12 +16,25 @@ class Modelo {
     }
 
     public function validar_usuario($user, $pass) {
-        $consulta = "SELECT * FROM jokalariak WHERE erabiltzailea = '" . $user . "' and pasahitza = '" . $pass . "'";
-        $this -> conexion -> query($consulta);
+        $sentencia = "SELECT * FROM jokalariak WHERE erabiltzailea = '" . $user . "' and pasahitza = '" . $pass . "'";
+        $this -> conexion -> query($sentencia);
         if ($this -> conexion -> affected_rows == 1) {
             return TRUE;
         } else {
             return FALSE;
+        }
+    }
+
+    public function ordenar_puntuaciones() {
+        try {
+            $sentencia = "SELECT erabiltzailea, puntuazio_max FROM jokalariak ORDER BY puntuazio_max DESC;";
+            $consulta = $this->conexion->query($sentencia);
+            foreach($consulta as $resultado) {
+                $listaPuntaje[$resultado['erabiltzailea']]=$resultado['puntuazio_max'];
+            }
+            return $listaPuntaje;
+        } catch (Exception $e) {
+            throw $e;
         }
     }
 
