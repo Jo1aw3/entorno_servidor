@@ -16,5 +16,3 @@ foreach ($dias as $dia_semana => $valor) {
 
 $total = array_sum($dias);
 echo 'Total : '. $total;
-echo '</br></br>
-?>

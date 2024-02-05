@@ -88,7 +88,6 @@ if ($_SESSION["balioztatua"] && isset($_POST['jokatu_botoia'])){
     $jok_model->eguneratu_puntuazioa($_SESSION["Erab"], $puntuak);
     $LogBis->Aukera_Eman();
 
-
 }
 
 
