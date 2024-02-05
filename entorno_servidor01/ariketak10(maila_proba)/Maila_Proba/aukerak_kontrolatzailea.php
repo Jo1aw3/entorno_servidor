@@ -13,8 +13,8 @@ $jok_model->konektatu();
 //Galdera eta erantzun posibleen array asoziatiboa.
 //Array asociativo de la preguntas y posbles respuestas.
 $joko_arraya=["Zein da urrearen elemetu kimikoa?" => array("Fr", "Au", "Ur"),
-                    "Urdina eta gorriaren nahasketatatik zer ateratzen da?" => array("Berdea", "Morea"),
-                    "Zenbat da 4x4?" => array("7", "16", "14", "15")];
+                "Urdina eta gorriaren nahasketatatik zer ateratzen da?" => array("Berdea", "Morea"),
+                "Zenbat da 4x4?" => array("7", "16", "14", "15")];
 
 
 //Galdera eta erantzunaren array asoziatiboa.

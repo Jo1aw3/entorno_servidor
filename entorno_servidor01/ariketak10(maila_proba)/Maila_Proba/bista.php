@@ -26,7 +26,7 @@ class Login_Bista {
                 <div>
                     <label><b>Zer da egin nahi duzuna?/ ¿Qué es lo que quieres hacer?</b></label> 
                 </div>          
-                <input type="radio" value="zerrenda" name="opcion"/>Puntuazio Zerrenda/ Listado puntuaciones
+                <input type="radio" value="zerrenda" name="opcion"/> Puntuazio Zerrenda/ Listado puntuaciones
                 <input type="radio" value="jokatu" name="opcion"/> Jokatu/ Jugar
                 <br><br>
                 <input type="submit" value="AURRERA" name="botoia"/>
