@@ -37,9 +37,28 @@ if ($_SESSION["validar_usuario"] && isset($_POST['boton'])) {
                 $pagina->mostrar_puntuaciones($model->ordenar_puntuaciones());
                 break;
             case 'jugar':
-                
+                $pagina->PreguntasRespuestas($opciones);
                 break;
         }
+    } else {
+        ?>
+        <h3 style="color:red;">No has elegido que quieres hacer.</h3>
+        <?php
+        $pagina->formulario_opciones();
     }
-        
+    
+}
+
+if ($_SESSION["validar_usuario"] && isset($_POST['boton_enviar'])) {
+    $puntos = 0;
+    $contador = 0;
+    foreach ($respuesta as $pregunta => $respuestas) {
+        if ($_POST['pregunta'. $contador++] == $respuesta) {
+            echo ($pregunta . "la respuesta de la pregunta" . $pregunta . "es correcta");
+            $puntos = $puntos + 3;
+        }
+    }
+    echo $puntos . "los puntos que has obtenido";
+    $model->insertar_puntuacion($_POST['userName'], $puntos);
+    $pagina->formulario_opciones();
 }

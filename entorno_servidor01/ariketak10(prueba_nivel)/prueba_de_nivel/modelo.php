@@ -38,4 +38,14 @@ class Modelo {
         }
     }
 
+    public function insertar_puntuacion($user, $puntos) {
+        $sentencia = "SELECT puntuazio_max FROM jokalariak WHERE erabiltzailea = '" . $user . "'";
+        $consulta = $this -> conexion -> query($sentencia);
+        $consultar = $consulta -> fetch_array();
+        $puntuacion = $consultar[0];
+        $puntuacion = $puntuacion + $puntos;
+        $sentencia = "UPDATE jokalariak SET puntuazio_max = ".$puntuacion."  WHERE erabiltzailea = '" . $user . "'";
+        $this -> conexion -> query($sentencia);
+    }
+
 }

@@ -66,4 +66,23 @@ class Vista {
         <?php
     }
 
+    public function PreguntasRespuestas($array_asociativo) {
+       
+        $contador = 0;
+        echo '<form method="POST" action="controlador.php">';
+        foreach ($array_asociativo as $pregunta => $respuestas) {
+            echo '<div>';
+            echo '<label>' . $pregunta . '</label>';
+            echo '<select name="pregunta' . $contador++ . '">';
+            foreach ($respuestas as $respuesta) {
+                echo '<option value="' . $respuesta . '">' . $respuesta . '</option>';
+            }
+            echo '</select>';
+            echo '</div>';
+        }
+        echo '<input type="submit" value="enviar" name="boton_enviar">';
+        echo '</form>';
+
+    }
+
 }

@@ -1,0 +1,64 @@
+--SEGURIDAD PHP--
+
+\*ENCRIPTAR CADENAS*/
+info: https://www.php.net/manual/es/function.hash.php
+
+**Como usar funcion**
+<?php
+    $string = "Hola Mundo";
+    $hash = hash('sha256', $string);
+    echo $hash;
+?>
+_____________________________________________________________________________________________________________________________________________________
+
+\*ENCRIPTAR CONTRASEÑAS*/
+
+password_hash():
+info: https://www.php.net/manual/es/function.password-hash.php
+
+**Como usar la funcion**
+<?php
+    $password = "miContraseña";
+    $hash = password_hash($password, PASSWORD_DEFAULT);
+    echo $hash;
+?>
+
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+password_verify()
+info: https://www.php.net/manual/es/function.password-verify.php
+**Como usar la funcion**
+<?php
+    $password = "miContraseña";
+    $hash = password_hash($password, PASSWORD_DEFAULT);
+
+    if (password_verify($password, $hash)) {
+        echo 'La contraseña es válida!';
+    } else {
+        echo 'La contraseña es inválida.';
+    }
+?>
+_____________________________________________________________________________________________________________________________________________________
+\*CAPTCHA*/
+
+1. Tenemos que tener una tabla en la BDD que tenga el id, ruta y resultado.
+2. Creamos un formulario para meter el usuario y contraseña. 
+3. Ponemos la foto con otro input debajo con la foto y un input para el resultado
+
+*Mirar codigo en la presentacion de Maitane (Diapositivas 7-8) *
+
+_____________________________________________________________________________________________________________________________________________________
+\*SQL Injection*/
+
+*Mirar diapositivas de la presentacion de Maitane (Diapositivas 10-11-12)*
+
+\*BIND PARAM*/
+
+    $stmt = $mysqli->prepare("INSERT INTO CountryLanguage VALUES (?, ?, ?, ?)");
+    $stmt->bind_param('sssd', $code, $language, $official, $percent);
+
+En vez de escribir los datos que recibimos de el usuario ponemos "?" y despues usamos bind_param para reemplazarlos en la sentencia.
+
+	La primera s indica que el primer parámetro es un string.
+	La segunda s indica que el segundo parámetro también es un string.
+	La tercera s indica que el tercer parámetro es un string.
+	La d final indica que el cuarto parámetro es un double (un número con decimales).
