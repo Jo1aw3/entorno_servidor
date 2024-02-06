@@ -13,7 +13,7 @@ $model -> conectar_datos();
 $opciones=["elemento quimico del oro?" => array("Fr", "Au", "Ur"),
     "azul +  rojo = ?" => array("Verde", "Morado"),
     "cuanto da 4x4?" => array("7", "16", "14", "15")];
-$respuesta=["elemento quimico del oro?" => "Au",
+$respuestas=["elemento quimico del oro?" => "Au",
     "azul +  rojo = ?" => "Morado",
     "cuanto da 4x4?" => "16"];
 
@@ -52,13 +52,13 @@ if ($_SESSION["validar_usuario"] && isset($_POST['boton'])) {
 if ($_SESSION["validar_usuario"] && isset($_POST['boton_enviar'])) {
     $puntos = 0;
     $contador = 0;
-    foreach ($respuesta as $pregunta => $respuestas) {
+    foreach ($respuestas as $pregunta => $respuesta) {
         if ($_POST['pregunta'. $contador++] == $respuesta) {
             echo ($pregunta . "la respuesta de la pregunta" . $pregunta . "es correcta");
             $puntos = $puntos + 3;
         }
     }
     echo $puntos . "los puntos que has obtenido";
-    $model->insertar_puntuacion($_POST['userName'], $puntos);
+    $model->insertar_puntuacion($_SESSION["Usuario"], $puntos);
     $pagina->formulario_opciones();
 }
