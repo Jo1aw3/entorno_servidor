@@ -4,7 +4,8 @@ class UsuarioModel {
 
     private $conexion;
 
-    public function conectar_bd() {
+    public function conexion_bd() {
+
         try {
             $this -> conexion = new mysqli('localhost', 'root', '', 'tienda_ropa');
             if ($this -> conexion -> connect_errno) {
@@ -13,18 +14,20 @@ class UsuarioModel {
         } catch (Exception $e) {
             echo $e -> getMessage();
         }
+
     }
 
-    public function validar_usuario($user, $pass) {
-        $sentencia = "SELECT * FROM tienda_ropa WHERE nombre = '" . $user . "' AND contrasenya = '" . $pass . "'";
-        $this -> conexion -> query($sentencia);
-        if ($this -> conexion -> affected_rows == 1) {
-            return TRUE;
-        } else {
-            return FALSE;
-        }
+    public function incluir_usuario($id, $nombre, $contra, $admin) {
+
+        $query = "INSERT INTO usuarios VALUES (?, ?, ?, ?);";
+        $stmt = $this->conexion->prepare($query);
+        $stmt->bind_param("issi", $id, $nombre, $contra, $admin);
+        
+        $stmt->execute();
+        if (!$stmt->affected_rows > 0) {
+            echo "Error al insertar el Usuario";
+        } $stmt->close();
+
     }
-    
 
 }
-

@@ -10,6 +10,4 @@ if (!$conectar) {
     echo "se ha conectado con la base de datos";
 }
 
-echo "hola esto es solamente un testeo a";
-
 mysqli_close($conectar);

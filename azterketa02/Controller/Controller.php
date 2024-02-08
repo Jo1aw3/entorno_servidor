@@ -1,31 +1,33 @@
 <?php
 
-session_start();
+include_once '../View/Vista.php';
+include_once '../Model/UsuarioModel.php';
 
-include_once 'View/Vista.php';
-include_once 'Model/UsuarioModel.php';
-include_once 'Model/RopaModel.php';
-include_once 'Model/PedidoModel.php';
+$visualizar = new Vista;
+$userModel = new UsuarioModel;
 
-$pagina = new Vista();
-$modelo_usuario = new UsuarioModel();
-$modelo_ropa = new RopaModel();
-$modelo_pedido = new PedidoModel();
+$userModel->conexion_bd();
 
-$modelo_usuario -> conectar_bd();
+// Control para el formulario de Alta
+if (isset($_POST['Alta'])) {
+    $visualizar->darseDeAlta();
+}
 
-if (isset($_POST['Iniciar']) && !$_SESSION["validar_usuario"]) {
-    if($modelo_usuario->validar_usuario($_POST['username'], $_POST['password'])) {
-        $_SESSION["validar_usuario"] = TRUE;
-        $_SESSION["nombreUsuario"] = $_POST['username'];
+if (isset($_POST['Darse_de_alta'])) {
+    if (isset($_POST['id']) && isset($_POST['nombre']) && isset($_POST['contra']) && isset($_POST['admin'])) {
+        $userModel->incluir_usuario($_POST['id'], $_POST['nombre'], $_POST['contra'], $_POST['admin']);
+        echo "Se ha dado de alta!";
     } else {
-        ?>
-        <h3 style="color:red;">Intentalo de nuevo, datos de usuario incorrectos.</h3>
-        <?php
-        $pagina->Login();
+        echo "No has introducido todos los datos";
     }
-} else if (isset($_POST['Alta'])) {
+}
 
-} else if (isset($_POST['Cambiar'])) {
-    
+// Control para el formulario que Inicia Sesion
+if (isset($_POST['Iniciar'])) {
+
+}
+
+// Control para el formulario que cambia el password
+if (isset($_POST['Cambiar'])) {
+    $visualizar->cambiarContra();
 }
