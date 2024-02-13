@@ -25,6 +25,8 @@ class UsuarioModel {
     }
 
     public function validar_usuario($user, $pass) {
+        $this->conexion_bd();
+
         $query = "SELECT * FROM usuarios WHERE nombre = ?";
         $stmt = $this->conexion->prepare($query);
         $stmt->bind_param("s", $user);
