@@ -67,4 +67,14 @@ class UsuarioModel {
 
     }
 
+    public function cambiar_contra($password) {
+
+        $contraHash = password_hash($password, PASSWORD_DEFAULT);
+        $query = "UPDATE usuarios SET contrasenya = ? WHERE nombre = ?;";
+        $stmt = $this->conexion->prepare($query);
+        $stmt->bind_param("ss", $contraHash, $_SESSION['user']);
+        $stmt->execute();
+        $stmt->close();
+    }
+
 }

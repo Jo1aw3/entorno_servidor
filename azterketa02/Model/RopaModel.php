@@ -1,5 +1,6 @@
 <?php
 
+require_once 'ConectarBase.php';
 class RopaModel {
     
     private $conexion;
@@ -25,6 +26,16 @@ class RopaModel {
         $this->conexion_bd();
         $query = "SELECT * FROM ropa";
         $resultado = $this->conexion->query($query);
+        $this->cerrar_bd();
+        return $resultado;
+    }
+
+    public function insertar_ropa($id, $nombre, $precio) {
+        $this->conexion_bd();
+        $query = "INSERT INTO ropa (id, nombre, precio) VALUES (?, ?, ?)";
+        $stmt = $this->conexion->prepare($query);
+        $stmt->bind_param("iss", $id, $nombre, $precio);
+        $resultado = $stmt->execute();
         $this->cerrar_bd();
         return $resultado;
     }
