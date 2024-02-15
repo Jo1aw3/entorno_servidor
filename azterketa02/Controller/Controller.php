@@ -95,14 +95,26 @@ if (isset($_POST['Darse_de_alta'])) {
 
 // Control para el cambio de contraseña
 if (isset($_POST['Cambiar'])) {
-    $visualizar->cambiarContra();
+    $user = $_POST['username'];
+    $pass = $_POST['password'];
+    $datosUsuario = $userModel->validar_usuario($user, $pass);
+    if ($datosUsuario) {
+        $_SESSION['user'] = $datosUsuario['user'];
+        $visualizar->cambiarContra();
+    } else {
+        echo "datos incorrectos";
+        $visualizar->Login();
+    }
+
 }
 
 if (isset($_POST['Cambiar_pass'])) {
-    if (isset($_POST['contra'])) {
-        $userModel->cambiar_contra($_POST['contra']);
-        echo "Se ha cambiado la contraseña!";
+    $resultado = $userModel->cambiar_contra($_POST['contra']);
+    if ($resultado) {
+        echo "Se ha cambiado la contraseña";
+        $visualizar->Login();
     } else {
-        echo "No se ha podido cambiar la contraseña";
+        echo "No se ha cambiado la contraseña";
+        $visualizar->Login();
     }
 }

@@ -36,13 +36,13 @@ class PedidoModel {
     public function optener_pedido() {
         $this->conexion_bd();
         $query = "SELECT
-                COALESCE(u.izena, '-') AS 'Erabiltzaile Izena',
-                COALESCE(a.izena, '-') AS 'Produktua',
-                COALESCE(e.kantitatea, 0) AS 'Kopurua'
-                FROM erabiltzaileak u
-                LEFT JOIN eskariak e ON u.id = e.id_erabiltzailea
-                LEFT JOIN arropa a ON e.id_arropa = a.id
-                ORDER BY u.id, e.id";
+                COALESCE(u.nombre, '-') AS 'Nombre Usuario',
+                COALESCE(r.nombre, '-') AS 'Nombre Ropa',
+                COALESCE(p.cantidad, 0) AS 'Cantidad'
+                FROM usuarios u
+                LEFT JOIN pedidos p ON u.id = p.id_usuario
+                LEFT JOIN ropa r ON p.id_ropa = r.id
+                ORDER BY p.cantidad DESC";
         $resultado = $this->conexion->query($query);
         $this->cerrar_bd();
         return $resultado;
