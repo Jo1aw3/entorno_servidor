@@ -55,7 +55,6 @@ if (isset($_POST['Comprar'])) {
 }
 
 // Control para la vista de Admin
-
 // Control para Crear Productos
 if (isset($_POST['Productos'])) {
     $visualizar->crearProducto();
