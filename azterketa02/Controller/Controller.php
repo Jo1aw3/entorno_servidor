@@ -12,14 +12,18 @@ $userModel = new UsuarioModel;
 $ropaModel = new RopaModel;
 $pedidoModel = new PedidoModel;
 
-// $userModel->conexion_bd();
+if (!isset($_COOKIE['user']) && $_SESSION['validarUsuario']) {
+    echo "se ha terminado la sesion";
+    $visualizar->Login();
+    exit;
+}
 
 // Control para el formulario de Inicio de Sesion
 if (isset($_POST['Iniciar'])) {
     $user = $_POST['username'];
     $pass = $_POST['password'];
     $datosUsuario = $userModel->validar_usuario($user, $pass);
-
+    setcookie("user", $user, time() + 30, "/");
     $_SESSION["validarUsuario"] = TRUE;
     if ($datosUsuario) {
         $_SESSION['user'] = $datosUsuario['user'];
@@ -30,11 +34,10 @@ if (isset($_POST['Iniciar'])) {
         } else {
             $visualizar->area_usuario($ropaModel->obtener_ropa());
         }
-
     } else {
-        ?>
+?>
         <h3 style="color: red;">Intentalo de nuevo.</h3>
-        <?php
+<?php
         $visualizar->Login();
     }
 }
@@ -105,7 +108,6 @@ if (isset($_POST['Cambiar'])) {
         echo "datos incorrectos";
         $visualizar->Login();
     }
-
 }
 
 if (isset($_POST['Cambiar_pass'])) {
