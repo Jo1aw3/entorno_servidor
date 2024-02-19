@@ -4,14 +4,15 @@ session_start();
 
 include_once '../View/Vista.php';
 include_once '../Model/UsuarioModel.php';
-include_once '../Model/RopaModel.php';
-include_once '../Model/PedidoModel.php';
+// include_once '../Model/RopaModel.php';
+// include_once '../Model/PedidoModel.php';
 
 $visualizar = new Vista;
 $userModel = new UsuarioModel;
-$ropaModel = new RopaModel;
-$pedidoModel = new PedidoModel;
+// $ropaModel = new RopaModel;
+// $pedidoModel = new PedidoModel;
 
+// galletas
 if (!isset($_COOKIE['user']) && $_SESSION['validarUsuario']) {
     echo "se ha terminado la sesion";
     $_SESSION['validarUsuario'] = FALSE;
@@ -36,51 +37,11 @@ if (isset($_POST['Iniciar'])) {
             $visualizar->area_usuario($ropaModel->obtener_ropa());
         }
     } else {
-?>
+        ?>
         <h3 style="color: red;">Intentalo de nuevo.</h3>
-<?php
+        <?php
         $visualizar->Login();
     }
-}
-
-// Contro para la vista del Usuario
-if (isset($_POST['Comprar'])) {
-    $idUsuario = $_SESSION['id'];
-    $idRopa = $_POST['productos'];
-    $cantidad = $_POST['numeros'];
-    $resultado = $pedidoModel->insertar_pedido($idUsuario, $idRopa, $cantidad);
-    if ($resultado) {
-        echo "Se ha insertado el pedido";
-        $visualizar->area_usuario($ropaModel->obtener_ropa());
-    } else {
-        echo "No se ha insertado el pedido";
-        $visualizar->area_usuario($ropaModel->obtener_ropa());
-    }
-}
-
-// Control para la vista de Admin
-// Control para Crear Productos
-if (isset($_POST['Productos'])) {
-    $visualizar->crearProducto();
-}
-
-if (isset($_POST['Crear_Producto'])) {
-    $id = $_POST['id_producto'];
-    $nombre = $_POST['nombre'];
-    $precio = $_POST['precio'];
-    $resultado = $ropaModel->insertar_ropa($id, $nombre, $precio);
-    if ($resultado) {
-        echo "Se ha insertado el producto";
-        $visualizar->area_usuario_admin();
-    } else {
-        echo "No se ha insertado el producto";
-        $visualizar->area_usuario_admin();
-    }
-}
-
-// Control para mostrar Pedidos
-if (isset($_POST['Pedidos'])) {
-    $visualizar->generarTablaPedidos($pedidoModel->optener_pedido());
 }
 
 // Control para darse de Alta
@@ -121,3 +82,43 @@ if (isset($_POST['Cambiar_pass'])) {
         $visualizar->Login();
     }
 }
+
+// Contro para la vista del Usuario
+// if (isset($_POST['Comprar'])) {
+//     $idUsuario = $_SESSION['id'];
+//     $idRopa = $_POST['productos'];
+//     $cantidad = $_POST['numeros'];
+//     $resultado = $pedidoModel->insertar_pedido($idUsuario, $idRopa, $cantidad);
+//     if ($resultado) {
+//         echo "Se ha insertado el pedido";
+//         $visualizar->area_usuario($ropaModel->obtener_ropa());
+//     } else {
+//         echo "No se ha insertado el pedido";
+//         $visualizar->area_usuario($ropaModel->obtener_ropa());
+//     }
+// }
+
+// Control para la vista de Admin
+// Control para Crear Productos
+// if (isset($_POST['Productos'])) {
+//     $visualizar->crearProducto();
+// }
+
+// if (isset($_POST['Crear_Producto'])) {
+//     $id = $_POST['id_producto'];
+//     $nombre = $_POST['nombre'];
+//     $precio = $_POST['precio'];
+//     $resultado = $ropaModel->insertar_ropa($id, $nombre, $precio);
+//     if ($resultado) {
+//         echo "Se ha insertado el producto";
+//         $visualizar->area_usuario_admin();
+//     } else {
+//         echo "No se ha insertado el producto";
+//         $visualizar->area_usuario_admin();
+//     }
+// }
+
+// Control para mostrar Pedidos
+// if (isset($_POST['Pedidos'])) {
+//     $visualizar->generarTablaPedidos($pedidoModel->optener_pedido());
+// }

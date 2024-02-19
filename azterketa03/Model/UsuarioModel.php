@@ -56,35 +56,35 @@ class UsuarioModel
         return FALSE;
     }
 
-    public function incluir_usuario($id, $nombre, $contra, $admin)
-    {
-        $this->conexion_bd();
+    // public function incluir_usuario($id, $nombre, $contra, $admin)
+    // {
+    //     $this->conexion_bd();
 
-        $contraHash = password_hash($contra, PASSWORD_DEFAULT);
+    //     $contraHash = password_hash($contra, PASSWORD_DEFAULT);
 
-        $query = "INSERT INTO usuarios VALUES (?, ?, ?, ?);";
-        $stmt = $this->conexion->prepare($query);
-        $stmt->bind_param("issi", $id, $nombre, $contraHash, $admin);
+    //     $query = "INSERT INTO usuarios VALUES (?, ?, ?, ?);";
+    //     $stmt = $this->conexion->prepare($query);
+    //     $stmt->bind_param("issi", $id, $nombre, $contraHash, $admin);
 
-        $stmt->execute();
-        if (!$stmt->affected_rows > 0) {
-            echo "Error al insertar el Usuario";
-        }
-        $stmt->close();
+    //     $stmt->execute();
+    //     if (!$stmt->affected_rows > 0) {
+    //         echo "Error al insertar el Usuario";
+    //     }
+    //     $stmt->close();
 
-        $this->cerrar_bd();
-    }
+    //     $this->cerrar_bd();
+    // }
 
-    public function cambiar_contra($password)
-    {
-        $this->conexion_bd();
-        $contraHash = password_hash($password, PASSWORD_DEFAULT);
-        $query = "UPDATE usuarios SET contrasenya = ? WHERE nombre = ?;";
-        $stmt = $this->conexion->prepare($query);
-        $stmt->bind_param("ss", $contraHash, $_SESSION['user']);
-        $resul = $stmt->execute();
-        $stmt->close();
-        $this->cerrar_bd();
-        return $resul;
-    }
+    // public function cambiar_contra($password)
+    // {
+    //     $this->conexion_bd();
+    //     $contraHash = password_hash($password, PASSWORD_DEFAULT);
+    //     $query = "UPDATE usuarios SET contrasenya = ? WHERE nombre = ?;";
+    //     $stmt = $this->conexion->prepare($query);
+    //     $stmt->bind_param("ss", $contraHash, $_SESSION['user']);
+    //     $resul = $stmt->execute();
+    //     $stmt->close();
+    //     $this->cerrar_bd();
+    //     return $resul;
+    // }
 }
