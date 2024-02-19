@@ -12,7 +12,7 @@ class Login_Bista {
     //Formulario completo con la parte del login.
     public function Login() {
         ?>
-        <form method="POST" action="./Kontrolatzailea/login_kontrolatzailea.php">
+        <form method="POST" action="./Controlador/controlador.php">
             <div >
                 <div >
                     <label><b>Erabiltzailea/ Usuario</b></label>
