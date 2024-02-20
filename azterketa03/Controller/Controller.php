@@ -25,7 +25,7 @@ if (isset($_POST['Entrar'])) {
     $user = $_POST['username'];
     $pass = $_POST['password'];
     $datosUsuario = $userModel->validar_usuario($user, $pass);
-    setcookie("user", $user, time() + 300000000, "/");
+    setcookie("user", $user, time() + 60, "/");
     $_SESSION["validarUsuario"] = TRUE;
     if ($datosUsuario) {
         $_SESSION['Usuario'] = $datosUsuario['Usuario'];
@@ -90,7 +90,7 @@ if (isset($_POST['lib_editor_ver'])) {
 
 // publicar libros
 if (isset($_POST['publi_libros'])) {
-    $visualizar->Libros($libModel->publicar_libro());
+    $visualizar->Libros($libModel->libros_null());
 }
 
 // Contro para la vista del autor
@@ -100,13 +100,13 @@ if (isset($_POST['subir'])) {
 
 // ver libros
 if (isset($_POST['lib_autor_ver'])) {
-    $visualizar->CrearTablaLibro($libModel->libros_null());
+    $visualizar->CrearTablaLibro($libModel->ver_libros());
 }
 
 // subir libro
 if (isset($_POST['Subir'])) {
     if (!$_POST['nombre'] == "") {
-        if (!$libModel->verificar_libro($_POST['nombre'])) {
+        if ($libModel->verificar_libro($_POST['nombre'])) {
             echo "Este libro ya existe";
         } else {
             $libModel->insertar_libro($_POST['nombre']);

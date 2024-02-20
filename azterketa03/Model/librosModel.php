@@ -44,7 +44,7 @@ class LibrosModel
         $stmt->bind_param("s", $libro);
         $stmt->execute();
 
-        if ($stmt->affected_rows > 0) {
+        if ($stmt->affected_rows == 1) {
             return TRUE;
         } else {
             return FALSE;
