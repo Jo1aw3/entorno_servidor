@@ -3,14 +3,14 @@
 session_start();
 
 include_once '../View/Vista.php';
-include_once '../Model/UsuarioModel.php';
-// include_once '../Model/RopaModel.php';
-// include_once '../Model/PedidoModel.php';
+include_once '../Model/trabajadorasModel.php';
+include_once '../Model/editorialesModel.php';
+include_once '../Model/librosModel.php';
 
 $visualizar = new Vista;
 $userModel = new UsuarioModel;
-// $ropaModel = new RopaModel;
-// $pedidoModel = new PedidoModel;
+$editModel = new EditorialesModel;
+$libModel = new LibrosModel;
 
 // galletas
 if (!isset($_COOKIE['user']) && $_SESSION['validarUsuario']) {
@@ -21,20 +21,20 @@ if (!isset($_COOKIE['user']) && $_SESSION['validarUsuario']) {
 }
 
 // Control para el formulario de Inicio de Sesion
-if (isset($_POST['Iniciar'])) {
+if (isset($_POST['Entrar'])) {
     $user = $_POST['username'];
     $pass = $_POST['password'];
     $datosUsuario = $userModel->validar_usuario($user, $pass);
-    setcookie("user", $user, time() + 30, "/");
+    setcookie("user", $user, time() + 300000000, "/");
     $_SESSION["validarUsuario"] = TRUE;
     if ($datosUsuario) {
-        $_SESSION['user'] = $datosUsuario['user'];
-        $_SESSION['admin'] = $datosUsuario['admin'];
-        $_SESSION['id'] = $datosUsuario['id'];
-        if ($datosUsuario['admin'] == 1) {
-            $visualizar->area_usuario_admin();
+        $_SESSION['Usuario'] = $datosUsuario['Usuario'];
+        $_SESSION['Autor'] = $datosUsuario['Autor'];
+        $_SESSION['AutorID'] = $datosUsuario['AutorID'];
+        if ($datosUsuario['Autor'] == 1) {
+            $visualizar->area_autor();
         } else {
-            $visualizar->area_usuario($ropaModel->obtener_ropa());
+            $visualizar->area_editor();
         }
     } else {
         ?>
@@ -44,34 +44,19 @@ if (isset($_POST['Iniciar'])) {
     }
 }
 
-// Control para darse de Alta
-if (isset($_POST['Alta'])) {
-    $visualizar->darseDeAlta();
-}
-
-if (isset($_POST['Darse_de_alta'])) {
-    if (isset($_POST['id']) && isset($_POST['nombre']) && isset($_POST['contra']) && isset($_POST['admin'])) {
-        $userModel->incluir_usuario($_POST['id'], $_POST['nombre'], $_POST['contra'], $_POST['admin']);
-        echo "Se ha dado de alta!";
-    } else {
-        echo "No has introducido todos los datos";
-    }
-}
-
 // Control para el cambio de contraseña
 if (isset($_POST['Cambiar'])) {
     $user = $_POST['username'];
     $pass = $_POST['password'];
     $datosUsuario = $userModel->validar_usuario($user, $pass);
     if ($datosUsuario) {
-        $_SESSION['user'] = $datosUsuario['user'];
+        $_SESSION['Usuario'] = $datosUsuario['Usuario'];
         $visualizar->cambiarContra();
     } else {
         echo "datos incorrectos";
         $visualizar->Login();
     }
 }
-
 if (isset($_POST['Cambiar_pass'])) {
     $resultado = $userModel->cambiar_contra($_POST['contra']);
     if ($resultado) {
@@ -83,42 +68,51 @@ if (isset($_POST['Cambiar_pass'])) {
     }
 }
 
-// Contro para la vista del Usuario
-// if (isset($_POST['Comprar'])) {
-//     $idUsuario = $_SESSION['id'];
-//     $idRopa = $_POST['productos'];
-//     $cantidad = $_POST['numeros'];
-//     $resultado = $pedidoModel->insertar_pedido($idUsuario, $idRopa, $cantidad);
-//     if ($resultado) {
-//         echo "Se ha insertado el pedido";
-//         $visualizar->area_usuario($ropaModel->obtener_ropa());
-//     } else {
-//         echo "No se ha insertado el pedido";
-//         $visualizar->area_usuario($ropaModel->obtener_ropa());
-//     }
-// }
+// Control para la vista de editor
+// Control para darse de Alta
+if (isset($_POST['Alta'])) {
+    $visualizar->nuevoUsuario();
+}
 
-// Control para la vista de Admin
-// Control para Crear Productos
-// if (isset($_POST['Productos'])) {
-//     $visualizar->crearProducto();
-// }
+if (isset($_POST['Dar_de_alta'])) {
+    if (isset($_POST['id']) && isset($_POST['usuario']) && isset($_POST['contra']) && isset($_POST['nombre']) && isset($_POST['nacionalidad']) && isset($_POST['autor'])) {
+        $userModel->incluir_usuario($_POST['id'], $_POST['usuario'], $_POST['contra'], $_POST['nombre'], $_POST['nacionalidad'], $_POST['autor']);
+        echo "Se ha dado de alta!";
+    } else {
+        echo "No has introducido todos los datos";
+    }
+}
 
-// if (isset($_POST['Crear_Producto'])) {
-//     $id = $_POST['id_producto'];
-//     $nombre = $_POST['nombre'];
-//     $precio = $_POST['precio'];
-//     $resultado = $ropaModel->insertar_ropa($id, $nombre, $precio);
-//     if ($resultado) {
-//         echo "Se ha insertado el producto";
-//         $visualizar->area_usuario_admin();
-//     } else {
-//         echo "No se ha insertado el producto";
-//         $visualizar->area_usuario_admin();
-//     }
-// }
+// ver libros editor
+if (isset($_POST['lib_editor_ver'])) {
+    $visualizar->CrearTablaLibrosEditor($libModel->ver_libros_editor());
+}
 
-// Control para mostrar Pedidos
-// if (isset($_POST['Pedidos'])) {
-//     $visualizar->generarTablaPedidos($pedidoModel->optener_pedido());
-// }
+// publicar libros
+if (isset($_POST['publi_libros'])) {
+    $visualizar->Libros($libModel->publicar_libro());
+}
+
+// Contro para la vista del autor
+if (isset($_POST['subir'])) {
+    $visualizar->SubirLibro();
+}
+
+// ver libros
+if (isset($_POST['lib_autor_ver'])) {
+    $visualizar->CrearTablaLibro($libModel->libros_null());
+}
+
+// subir libro
+if (isset($_POST['Subir'])) {
+    if (!$_POST['nombre'] == "") {
+        if (!$libModel->verificar_libro($_POST['nombre'])) {
+            echo "Este libro ya existe";
+        } else {
+            $libModel->insertar_libro($_POST['nombre']);
+            echo "Se ha subido el libro"; 
+        }
+    } else {
+        echo "Escribe el Nombre porfa";
+    }
+}

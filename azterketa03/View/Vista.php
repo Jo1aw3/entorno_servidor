@@ -7,7 +7,7 @@ class Vista {
     public function Login() {
         ?>
         
-        <form method="POST" action="../Controller/Controller.php">
+        <form method="POST" action="Controller/Controller.php">
             Nombre de usuario: <input type="text" name="username">
             <br>
             Contraseña: <input type="password" name="password">
@@ -30,7 +30,7 @@ class Vista {
                     <input type="text" name="contra"/>
                 </div>
                 
-                <input type="submit" value="Cambiar_ph" name="Cambiar"/> 
+                <input type="submit" value="Cambiar_ph" name="Cambiar_pass"/> 
             </div>
         </form>
         <?php

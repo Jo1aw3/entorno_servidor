@@ -7,6 +7,7 @@ class UsuarioModel
 
     private $conexion;
 
+    // Función para conectar con la base de datos.
     public function conexion_bd()
     {
 
@@ -22,16 +23,24 @@ class UsuarioModel
         $this->conexion->set_charset("utf8");
     }
 
+    // Función para cerrar la base de datos.
     public function cerrar_bd()
     {
         $this->conexion->close();
     }
 
+        /**
+         * Una función para validar un usuario en la base de datos.
+         *
+         * @param datatype $user descripción
+         * @throws Some_Exception_Class descripción de la excepción
+         * @return Some_Return_Value
+         */
     public function validar_usuario($user, $pass)
     {
         $this->conexion_bd();
 
-        $query = "SELECT * FROM usuarios WHERE nombre = ?";
+        $query = "SELECT * FROM personas_trabajadoras WHERE Usuario = ?";
         $stmt = $this->conexion->prepare($query);
         $stmt->bind_param("s", $user);
         $stmt->execute();
@@ -40,11 +49,11 @@ class UsuarioModel
 
         if ($resultado->num_rows > 0) {
             $row = $resultado->fetch_assoc();
-            $passHash = $row['contrasenya'];
+            $passHash = $row['Contraseña'];
             if (password_verify($pass, $passHash)) {
-                $datosUsuario["id"] = $row['id'];
-                $datosUsuario["user"] = $row['nombre'];
-                $datosUsuario["admin"] = $row['admin'];
+                $datosUsuario["AutorID"] = $row['AutorID'];
+                $datosUsuario["Usuario"] = $row['Usuario'];
+                $datosUsuario["Autor"] = $row['Autor'];
 
                 $stmt->close();
                 $this->cerrar_bd();
@@ -55,36 +64,55 @@ class UsuarioModel
         $this->cerrar_bd();
         return FALSE;
     }
+    
+    /**
+     * cambia la contraseña del usuario en la base de datos
+     *
+     * @param string $password la nueva contraseña
+     * @throws Exception en caso de error al ejecutar la consulta SQL
+     * @return bool indica si la actualización se realizó con éxito
+     */
+    public function cambiar_contra($password)
+    {
+        $this->conexion_bd();
+        $contraHash = password_hash($password, PASSWORD_DEFAULT);
+        $query = "UPDATE personas_trabajadoras SET Contraseña = ? WHERE Usuario = ?;";
+        $stmt = $this->conexion->prepare($query);
+        $stmt->bind_param("ss", $contraHash, $_SESSION['Usuario']);
+        $resul = $stmt->execute();
+        $stmt->close();
+        $this->cerrar_bd();
+        return $resul;
+    }
 
-    // public function incluir_usuario($id, $nombre, $contra, $admin)
-    // {
-    //     $this->conexion_bd();
+        /**
+         * Una función para incluir un nuevo usuario en la base de datos.
+         *
+         * @param tipo_dato $id descripción
+         * @param tipo_dato $usuario descripción
+         * @param tipo_dato $nombre descripción
+         * @param tipo_dato $nacionalidad descripción
+         * @param tipo_dato $autor descripción
+         * @throws Clase_De_Excepcion descripción de la excepción
+         * @return Valor_De_Retorno
+         */
+    public function incluir_usuario($id, $usuario, $contra, $nombre, $nacionalidad, $autor)
+    {
+        $this->conexion_bd();
 
-    //     $contraHash = password_hash($contra, PASSWORD_DEFAULT);
+        $contraHash = password_hash($contra, PASSWORD_DEFAULT);
 
-    //     $query = "INSERT INTO usuarios VALUES (?, ?, ?, ?);";
-    //     $stmt = $this->conexion->prepare($query);
-    //     $stmt->bind_param("issi", $id, $nombre, $contraHash, $admin);
+        $query = "INSERT INTO personas_trabajadoras VALUES (?, ?, ?, ?, ?, ?);";
+        $stmt = $this->conexion->prepare($query);
+        $stmt->bind_param("issssi", $id, $usuario, $contraHash, $nombre, $nacionalidad, $autor);
 
-    //     $stmt->execute();
-    //     if (!$stmt->affected_rows > 0) {
-    //         echo "Error al insertar el Usuario";
-    //     }
-    //     $stmt->close();
+        $stmt->execute();
+        if (!$stmt->affected_rows > 0) {
+            echo "Error al insertar la trabajadora";
+        }
+        $stmt->close();
 
-    //     $this->cerrar_bd();
-    // }
+        $this->cerrar_bd();
+    }
 
-    // public function cambiar_contra($password)
-    // {
-    //     $this->conexion_bd();
-    //     $contraHash = password_hash($password, PASSWORD_DEFAULT);
-    //     $query = "UPDATE usuarios SET contrasenya = ? WHERE nombre = ?;";
-    //     $stmt = $this->conexion->prepare($query);
-    //     $stmt->bind_param("ss", $contraHash, $_SESSION['user']);
-    //     $resul = $stmt->execute();
-    //     $stmt->close();
-    //     $this->cerrar_bd();
-    //     return $resul;
-    // }
 }
